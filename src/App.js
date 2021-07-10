@@ -6,13 +6,16 @@ import DisplayIncome from './components/DisplayIncome';
 import BudgetForm from './components/BudgetForm';
 import DisplayAccountSummary from './components/DisplayAccountSummary';
 import TransactionListDisplay from './components/TransactionListDisplay';
-
+import ModalEdit from './components/ModalEdit'
 
 
 function App() {
   
   const [entries, setEntries] = useState(initialEntries);
-  
+  const [description, setDescription] = React.useState('');
+  const [value, setValue] = React.useState('');
+  const [isExpense, setExpense] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   function deleteEntry(id) {
     const result = entries.filter((entry) => entry.id !== id);
     setEntries(result);
@@ -37,10 +40,19 @@ function App() {
         <DisplayAccountSummary />
 
       <MainHeader title='History' type='h3'/>
-       <TransactionListDisplay entries={entries} deleteEntry={deleteEntry}/>
+        <TransactionListDisplay entries={entries} deleteEntry={deleteEntry} setIsOpen={setIsOpen}/>
 
       <MainHeader title='Add new transaction' type='h3'/>
-        <BudgetForm addEntry={addEntry}/>
+        <BudgetForm 
+          addEntry={addEntry}
+          description={description}
+          value={value}
+          isExpense={isExpense}
+          setDescription={setDescription}
+          setValue={setValue}
+          setExpense={setExpense}
+        />
+        <ModalEdit isOpen={isOpen} setIsOpen={setIsOpen}/>
     </Container>
   );
 }
