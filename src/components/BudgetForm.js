@@ -22,7 +22,7 @@ function BudgetForm({
           setValue={setValue}
           setExpense={setExpense}
         />
-        <SaveOrCancelButton addEntry={addEntry} description={description} value={value} isExpense={isExpense}/>
+        <SaveOrCancelButton addEntry={addEntry}/>
       </Form>
     )
 }
