@@ -6,12 +6,10 @@ import DisplayIncome from './components/DisplayIncome';
 import BudgetForm from './components/BudgetForm';
 import DisplayAccountSummary from './components/DisplayAccountSummary';
 import TransactionListDisplay from './components/TransactionListDisplay';
-import ModalEdit from './components/ModalEdit'
-
+import ModalEdit from './components/ModalEdit';
+import { useSelector } from 'react-redux';
 
 function App() {
-  
-  const [entries, setEntries] = useState(initialEntries);
   const [description, setDescription] = React.useState('');
   const [value, setValue] = React.useState('');
   const [isExpense, setExpense] = React.useState(false);
@@ -20,6 +18,9 @@ function App() {
   const [incomeTotal, setIncomeTotal] = useState(0);
   const [expenseTotal, setExpenseTotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const entries = useSelector(state => state.entries)
+
+ 
   useEffect(() =>{
     if(!isOpen && entryId) {
       const index = entries.findIndex((entry) => entry.id === entryId);
@@ -27,11 +28,12 @@ function App() {
       newEntries[index].description = description;
       newEntries[index].value = value;
       newEntries[index].isExpense = isExpense;
-      setEntries(newEntries);
+      //setEntries(newEntries);
       resetEntry();
     }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
-
+  
   useEffect(() => {
     let totalIncome = 0;
     let totalExpenses = 0;
@@ -46,10 +48,8 @@ function App() {
     setIncomeTotal(totalIncome);
   }, [entries]);
 
-  function deleteEntry(id) {
-    const result = entries.filter((entry) => entry.id !== id);
-    setEntries(result);
-  }
+
+ 
 
   function addEntry() {
       const result = entries.concat({
@@ -59,7 +59,7 @@ function App() {
          isExpense: isExpense
       });
       console.log(result);
-      setEntries(result);
+     // setEntries(result);
       resetEntry();
   }
 
@@ -92,7 +92,6 @@ function App() {
       <MainHeader title='History' type='h3'/>
         <TransactionListDisplay 
           entries={entries} 
-          deleteEntry={deleteEntry}
           editEntry={editEntry}
         />
 
@@ -122,29 +121,3 @@ function App() {
 }
 
 export default App;
-var initialEntries = [
-  {
-    id: 1,
-    description: 'Work Income',
-    value: 500.00,
-    isExpense: false
-  },
-  {
-    id: 2,
-    description: 'Electric Bill',
-    value: 50.00,
-    isExpense:  true
-  },
-  {
-    id: 3,
-    description: 'Rent',
-    value: 100.00,
-    isExpense:  true
-  },
-  {
-    id: 4,
-    description: 'Water Bill',
-    value: 30.00,
-    isExpense:  true
-  }
-];
