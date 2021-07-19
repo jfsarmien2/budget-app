@@ -2,8 +2,10 @@ import React, {Fragment} from 'react'
 import {Segment, Grid, Icon} from 'semantic-ui-react'
 import { useDispatch } from 'react-redux'
 import { removeEntryRedux } from '../action/entries.action';
-function TransactionList({id, description, value, isExpense = false, editEntry}) {
+import { openModal } from '../action/modal.action';
+function TransactionList({id, description, value, isExpense = false}) {
     const dispatch = useDispatch();
+    dispatch({type: 'TEST_MESSAGE'});
     return (
     <Fragment>
     <Segment color={isExpense ? 'red' : 'green'}>
@@ -12,7 +14,11 @@ function TransactionList({id, description, value, isExpense = false, editEntry})
             <Grid.Column width={10} textAlign='left'>{description}</Grid.Column>
             <Grid.Column width={3} textAlign='right'>{value}</Grid.Column>
             <Grid.Column width={3}>
-              <Icon name='edit' bordered onClick={() => editEntry(id)}/>
+              <Icon 
+                name='edit'
+                bordered 
+                onClick={() => dispatch(openModal(id))}
+              />
               <Icon 
                 name='trash' 
                 bordered  

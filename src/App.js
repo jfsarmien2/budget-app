@@ -7,32 +7,21 @@ import BudgetForm from './components/BudgetForm';
 import DisplayAccountSummary from './components/DisplayAccountSummary';
 import TransactionListDisplay from './components/TransactionListDisplay';
 import ModalEdit from './components/ModalEdit';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllEntries } from './action/entries.action';
 
 function App() {
-  const [description, setDescription] = React.useState('');
-  const [value, setValue] = React.useState('');
-  const [isExpense, setExpense] = React.useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [entryId, setEntryId] = useState(null);
+  const [entry, setEntry] = useState({});
   const [incomeTotal, setIncomeTotal] = useState(0);
   const [expenseTotal, setExpenseTotal] = useState(0);
   const [total, setTotal] = useState(0);
   const entries = useSelector(state => state.entries)
-
- 
+  const { isOpen, id } = useSelector(state => state.modal);
+  const dispatch = useDispatch();
   useEffect(() =>{
-    if(!isOpen && entryId) {
-      const index = entries.findIndex((entry) => entry.id === entryId);
-      const newEntries = [...entries];
-      newEntries[index].description = description;
-      newEntries[index].value = value;
-      newEntries[index].isExpense = isExpense;
-      //setEntries(newEntries);
-      resetEntry();
-    }
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+    const index = entries.findIndex(entry => entry.id === id);
+    setEntry(entries[index]);
+  }, [isOpen, id, entries]);
   
   useEffect(() => {
     let totalIncome = 0;
@@ -47,41 +36,12 @@ function App() {
     setExpenseTotal(totalExpenses);
     setIncomeTotal(totalIncome);
   }, [entries]);
-
+  
 
  
-
-  function addEntry() {
-      const result = entries.concat({
-         id: entries.length + 1,
-         description: description,
-         value: value,
-         isExpense: isExpense
-      });
-      console.log(result);
-     // setEntries(result);
-      resetEntry();
-  }
-
-  function editEntry(id) {
-    console.log(`Edit ${id}`);
-    if(id) {
-       const index = entries.findIndex((entry) => entry.id === id);
-       const entry = entries[index];
-       setEntryId(id);
-       setDescription(entry.description);
-       setValue(entry.value);
-       setExpense(entry.isExpense);
-       setIsOpen(true);
-    }
-  }
-
-  function resetEntry() {
-    setDescription('');
-    setValue('');
-    setExpense(false);
-  }
-
+  useEffect(() => {
+    dispatch(getAllEntries());
+  }, []);
   return (
     <Container>
       <MainHeader title="Budget"/>
@@ -90,32 +50,11 @@ function App() {
         <DisplayAccountSummary totalIncome={incomeTotal} totalExpenses={expenseTotal}/>
 
       <MainHeader title='History' type='h3'/>
-        <TransactionListDisplay 
-          entries={entries} 
-          editEntry={editEntry}
-        />
+        <TransactionListDisplay entries={entries} />
 
       <MainHeader title='Add new transaction' type='h3'/>
-        <BudgetForm 
-          addEntry={addEntry}
-          description={description}
-          value={value}
-          isExpense={isExpense}
-          setDescription={setDescription}
-          setValue={setValue}
-          setExpense={setExpense}
-        />
-        <ModalEdit 
-          isOpen={isOpen} 
-          setIsOpen={setIsOpen}
-          addEntry={addEntry}
-          description={description}
-          value={value}
-          isExpense={isExpense}
-          setDescription={setDescription}
-          setValue={setValue}
-          setExpense={setExpense}
-        />
+        <BudgetForm />
+        <ModalEdit isOpen={isOpen} {...entry}/>
     </Container>
   );
 }

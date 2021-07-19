@@ -1,17 +1,20 @@
-import React from 'react'
-import SaveOrCancelButton from './SaveOrCancelButton'
-import { Form } from 'semantic-ui-react'
+import React from 'react';
+import SaveOrCancelButton from './SaveOrCancelButton';
+import { Form } from 'semantic-ui-react';
 import MainForm from './MainForm';
-function BudgetForm({
-  addEntry,
-  description,
-  value,
-  isExpense,
-  setDescription,
-  setValue,
-  setExpense
-}) {
-    
+import { useDispatch } from 'react-redux';
+import BudgetEntryDetails from '../hooks/BudgetEntryDetails';
+
+function BudgetForm() {
+  const{
+    description,
+    setDescription,
+    value,
+    setValue,
+    isExpense,
+    setExpense,
+    addEntry
+  } = BudgetEntryDetails();
     return (
      <Form unstackable>
         <MainForm 
