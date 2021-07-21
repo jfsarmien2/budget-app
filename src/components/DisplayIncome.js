@@ -4,7 +4,7 @@ function DisplayIncome({title, income, color, size='tiny'}) {
     return (
         <Statistic size={size} color={color}>
             <Statistic.Label style={{textAlign:'center'}}>{title}:</Statistic.Label>
-            <Statistic.Value>{income}</Statistic.Value>
+            <Statistic.Value>{isNaN(income) ? 0 : income}</Statistic.Value>
         </Statistic>
     )
 }

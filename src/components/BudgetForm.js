@@ -2,7 +2,6 @@ import React from 'react';
 import SaveOrCancelButton from './SaveOrCancelButton';
 import { Form } from 'semantic-ui-react';
 import MainForm from './MainForm';
-import { useDispatch } from 'react-redux';
 import BudgetEntryDetails from '../hooks/BudgetEntryDetails';
 
 function BudgetForm() {
