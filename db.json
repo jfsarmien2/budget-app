@@ -7,6 +7,14 @@
     {
       "id": 2,
       "description": "Electric Bill"
+    },
+    {
+      "id": "9b5a60aa-3ecc-49dd-8048-22b49a36ac3b",
+      "description": "Water Bill"
+    },
+    {
+      "id": "3b789a50-779a-413c-8c3c-a878c4716d7b",
+      "description": "Office Supply"
     }
   ],
   "values": [
@@ -19,6 +27,16 @@
       "id": 2,
       "value": 50,
       "isExpense": true
+    },
+    {
+      "id": "9b5a60aa-3ecc-49dd-8048-22b49a36ac3b",
+      "isExpense": true,
+      "value": "65"
+    },
+    {
+      "id": "3b789a50-779a-413c-8c3c-a878c4716d7b",
+      "isExpense": true,
+      "value": "20"
     }
   ]
 }

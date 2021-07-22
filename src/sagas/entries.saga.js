@@ -4,15 +4,12 @@ import axios from 'axios';
 
 export function* getAllEntries() {
     yield take(entryType.FETCH_ENTRIES);
-    console.log('I need to get entries now');
     const result = yield call(axios, 'http://localhost:4000/entries');
-    console.log(result);
     yield put(populateEntries(result.data));
 }
 
 export function* getEntryDetails(id){
     const { data } = yield call(axios, `http://localhost:4000/values/${id}`);
-    console.log(data);
     yield put(populateEntryDetails(id, data));
 }
 
